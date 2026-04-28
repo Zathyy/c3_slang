@@ -33,6 +33,7 @@ alias LoadBuiltinModule = fn SlangResult(void* self, CChar* name, void* module_d
 alias SaveBuiltinModule = fn SlangResult(void* self, CChar* name, int archive_type, IBlob** out_blob);
 // -- Global session --
 
+// -- Shader Reflection --
 
 // -- Session --
 alias GetGlobalSession = fn IGlobalSession*(void* self);
@@ -76,6 +77,7 @@ alias LoadFile = fn SlangResult(void* self, CChar* path, IBlob** out_blob);
 alias CastAs = fn void*(void* self, Guid* guid);
 
 alias GetSession = fn ISession*(void* self);
+alias ICT_GetLayout = fn ProgramLayout*(void* self, SlangInt target_index, IBlob** out_diagnostics = null);
 
 alias FindEntryPointByName_2 = fn SlangResult(
 	void* self,

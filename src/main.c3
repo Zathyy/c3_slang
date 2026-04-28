@@ -1,6 +1,7 @@
 module c3_slang;
 
 import slang;
+import slang::reflection;
 
 import std::collections::list;
 import std::io::file;
@@ -111,7 +112,7 @@ fn int main(String[] args)
 	IModule* slang_module = session.vtable.load_module(session, (CChar*)path.path_string, &diagnostics);
 	if (diagnostics) 
 	{
-		log::error("Failed to load module: %s", (CChar*)diagnostics.get_buffer_ptr());
+		log::error("Failed to load module: %s", (ZString)(CChar*)diagnostics.get_buffer_ptr());
 		diagnostics.free();
 		return -1;
 	}
@@ -160,7 +161,7 @@ fn int main(String[] args)
 
 	if (diagnostics) 
 	{
-		log::error("failed to compose program: %s", (CChar*)diagnostics.get_buffer_ptr());
+		log::error("failed to compose program: %s", (ZString)(CChar*)diagnostics.get_buffer_ptr());
 		return -1;
 	}
 
@@ -180,6 +181,15 @@ fn int main(String[] args)
 	}
 	defer linked_program.free();
 
+	ProgramLayout* layout = linked_program.vtable.get_layout(linked_program, 0);
+	SlangUint entry_count = reflection::get_entry_point_count(layout);
+	for (SlangUint i = 0; i < entry_count; i++)
+	{
+		EntryPointReflection* entry = reflection::get_entry_point_by_index(layout, i);
+		CChar* name = reflection::get_name(entry);
+		log::info("Found entry point: %s", (ZString)name);
+	}
+
 	foreach (entry : entry_points)
 	{
 		entry.free();
@@ -189,7 +199,7 @@ fn int main(String[] args)
 	result = linked_program.vtable.get_target_code(linked_program, 0, &code, &diagnostics);
 	if (slang::failed(result)) {
 		if (diagnostics) {
-			log::error("Failed to load module: %s", (CChar*)diagnostics.get_buffer_ptr());
+			log::error("Failed to load module: %s", (ZString)(CChar*)diagnostics.get_buffer_ptr());
 			return -1;
 		}
 

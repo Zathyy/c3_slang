@@ -1,12 +1,16 @@
 module slang;
 
+import slang::reflection;
+
 // has to be 0 for some reason
 const int API_VERSION = 0;
 alias SlangResult = int;
 const SlangResult OK = 0;
 
-alias SlangInt = int;
-alias SlangUint = uint;
+typedef Size = ulong;
+
+alias SlangInt = Size;
+alias SlangUint = usz;
 
 fn bool failed(SlangResult result) @inline
 {

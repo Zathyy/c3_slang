@@ -253,7 +253,8 @@ struct IComponentTypeVTable @private
 {
 	inline ISlangUnknownVTable base;
 	GetSession get_session;
-	void*[2] padding;
+	ICT_GetLayout get_layout;
+	void* padding;
 	GetEntryPointCode get_entry_point_code;
 	void*[3] padding_1;
 	LinkFn link;
