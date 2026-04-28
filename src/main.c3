@@ -11,7 +11,7 @@ fn int main(String[] args)
 	IGlobalSession* global_session = null;
 	SlangResult result = slang::create_global_session(0, &global_session);
 	if (slang::failed(result)) {
-		log::error("failed to create global session: %s", result);
+		log::error("failed to create global ses: %s", result);
 		return -1;
 	}
 
@@ -20,12 +20,60 @@ fn int main(String[] args)
 
 	CompilerOptionEntry[*] options = {
 		{
-			CompilerOptionName.EMIT_SPIRV_DIRECTLY, 
+			CompilerOptionName.MATRIX_LAYOUT_ROW,
+			{
+				.kind = CompilerOptionValueKind.INT,
+				.int_value_0 = 1
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_USE_ENTRYPOINT_NAME,
+			{
+				.kind = CompilerOptionValueKind.INT,
+				.int_value_0 = 1
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_BIND_SHIFT, 
 			{ 
 				.kind = CompilerOptionValueKind.INT, 
-				.int_value_0 = 1,
-			}}
-	};
+				.int_value_0 = (int)BindingType.SLANG_BINDING_TYPE_SAMPLER << 24 | 0,
+				.int_value_1 = 128
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_BIND_SHIFT, 
+			{ 
+				.kind = CompilerOptionValueKind.INT, 
+				.int_value_0 = (int)BindingType.SLANG_BINDING_TYPE_CONSTANT_BUFFER << 24 | 0,
+				.int_value_1 = 256
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_BIND_SHIFT, 
+			{ 
+				.kind = CompilerOptionValueKind.INT, 
+				.int_value_0 = (int)BindingType.SLANG_BINDING_TYPE_MUTABLE_TYPED_BUFFER << 24 | 0,
+				.int_value_1 = 384
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_BIND_SHIFT, 
+			{ 
+				.kind = CompilerOptionValueKind.INT, 
+				.int_value_0 = (int)BindingType.SLANG_BINDING_TYPE_MUTABLE_RAW_BUFFER << 24 | 0,
+				.int_value_1 = 384
+			}
+		},
+		{
+			CompilerOptionName.VULKAN_BIND_SHIFT, 
+			{ 
+				.kind = CompilerOptionValueKind.INT, 
+				.int_value_0 = (int)BindingType.SLANG_BINDING_TYPE_MUTABLE_FLAG << 24 | 0,
+				.int_value_1 = 384
+			}
+		}
+	}; 
 
 	SessionDesc desc;
 	desc.flags = slang::SESSION_FLAGS_NONE;
