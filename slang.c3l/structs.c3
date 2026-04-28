@@ -118,6 +118,7 @@ fn void IGlobalSession.free(&self)
 	if (self.vtable) 
 	{
 		self.vtable.base.release(self);
+		self.vtable = null;
 	}
 }
 
@@ -133,7 +134,7 @@ struct ICompileRequest
 
 struct ISlangFileSystemVTable @private 
 {
-	inline ISlangCastable base;
+	inline ISlangCastableVTable base;
 	LoadFile load_file;
 }
 

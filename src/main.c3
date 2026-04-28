@@ -9,7 +9,7 @@ import std::io::path;
 fn int main(String[] args) 
 {
 	IGlobalSession* global_session = null;
-	SlangResult result = slang::create_global_session(0, &global_session);
+	SlangResult result = slang::create_global_session(&global_session);
 	if (slang::failed(result)) {
 		log::error("failed to create global ses: %s", result);
 		return -1;
@@ -85,7 +85,7 @@ fn int main(String[] args)
 	target.compiler_option_entries = &options;
 	target.compiler_option_entry_count = (uint)options.len;
 	target.format =	SlangCompileTarget.SLANG_SPIRV;
-	target.profile = global_session.vtable.find_profile(global_session, "spirv_1_5");
+	target.profile = global_session.find_profile("spirv_1_5");
 
 	CChar*[*] paths = { "resources" };
 

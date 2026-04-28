@@ -91,6 +91,7 @@ alias GetEntryPointCode = fn SlangResult(
 	IBlob** out_diagnostics = null
 );
 
+
 alias GetTargetCode = fn SlangResult(
 	void* self,
 	int target_index,
