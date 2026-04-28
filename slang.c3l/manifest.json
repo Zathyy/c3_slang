@@ -1,0 +1,14 @@
+{
+  "provides" : "slang",
+  "targets" : {
+    "macos-x64" : {
+        "linked-libraries" : ["libslang"]
+    },
+    "windows-x64" : {
+        "linked-libraries" : ["slang"]
+    },
+    "linux-x64": {
+        "linked-libraries" : ["libslang"]
+    }
+  }
+}
