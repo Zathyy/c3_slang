@@ -204,7 +204,7 @@ struct IEntryPoint
 
 fn void IEntryPoint.free(&self)
 {
-	if (self && self.vtable) 
+	if (self.vtable) 
 	{
 		self.vtable.base.base.release(self);
 	}
@@ -240,7 +240,12 @@ fn usz IBlob.get_buffer_size(&self)
 
 fn void IBlob.free(&self)
 {
-	self.vtable.base.release(self);
+	if (self.vtable) 
+	{
+		self.vtable.base.release(self);
+		self.vtable = null;
+	}
+
 }
 
 struct IComponentTypeVTable @private
@@ -262,8 +267,11 @@ struct IComponentType {
 
 fn void IComponentType.free(&self) 
 {
-	assert(self.vtable != null);
-	self.vtable.base.release(self);
+	if (self.vtable) 
+	{
+		self.vtable.base.release(self);
+		self.vtable = null;
+	}
 }
 
 struct IModuleVTable @private
@@ -294,6 +302,7 @@ fn void IModule.free(&self)
 	if (self.vtable) 
 	{
 		self.vtable.base.base.release(self);
+		self.vtable = null;
 	}
 }
 

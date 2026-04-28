@@ -11,7 +11,7 @@ fn int main(String[] args)
 	IGlobalSession* global_session = null;
 	SlangResult result = slang::create_global_session(0, &global_session);
 	if (slang::failed(result)) {
-		log::error("failed: %s", result);
+		log::error("failed to create global session: %s", result);
 		return -1;
 	}
 
