@@ -82,6 +82,8 @@ fn int main(String[] args)
 	
 	TargetDesc target;
 	target.structure_size = TargetDesc.sizeof;
+	target.compiler_option_entries = &options;
+	target.compiler_option_entry_count = (uint)options.len;
 	target.format =	SlangCompileTarget.SLANG_SPIRV;
 	target.profile = global_session.vtable.find_profile(global_session, "spirv_1_5");
 
